@@ -1,0 +1,71 @@
+/* CMS Blog System Styles */
+
+/* Base styles for blog components */
+.blog-post {
+    margin-bottom: 2rem;
+}
+
+.blog-post-title {
+    margin-bottom: 1rem;
+}
+
+.blog-post-meta {
+    color: #6c757d;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+}
+
+.blog-post-excerpt {
+    margin-bottom: 1rem;
+}
+
+.blog-post-tags {
+    margin-top: 1rem;
+}
+
+.blog-tag {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    background-color: #e9ecef;
+    color: #495057;
+    text-decoration: none;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+}
+
+.blog-tag:hover {
+    background-color: #dee2e6;
+    color: #495057;
+    text-decoration: none;
+}
+
+.blog-category {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.blog-category:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+.blog-pagination {
+    margin-top: 2rem;
+}
+
+.blog-search-form {
+    margin-bottom: 2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .blog-post {
+        margin-bottom: 1.5rem;
+    }
+    
+    .blog-post-title {
+        font-size: 1.5rem;
+    }
+}

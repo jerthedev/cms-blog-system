@@ -1,0 +1,88 @@
+{
+    "name": "jerthedev/cms-blog-system",
+    "description": "A comprehensive Laravel CMS and Blog system package with AdminPanel integration",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jeremy Fall",
+            "email": "jerthedev@gmail.com",
+            "homepage": "https://jerthedev.com",
+            "role": "Developer"
+        }
+    ],
+    "homepage": "https://github.com/jerthedev/cms-blog-system",
+    "readme": "README.md",
+    "support": {
+        "issues": "https://github.com/jerthedev/cms-blog-system/issues",
+        "source": "https://github.com/jerthedev/cms-blog-system"
+    },
+    "keywords": [
+        "laravel",
+        "cms",
+        "blog",
+        "content-management",
+        "admin-panel",
+        "markdown",
+        "seo",
+        "publishing"
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/jerthedev/admin-panel"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "laravel/framework": "^12.0",
+        "jerthedev/admin-panel": "dev-main",
+        "spatie/laravel-medialibrary": "^11.0",
+        "league/commonmark": "^2.4"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^10.0",
+        "phpunit/phpunit": "^11.0",
+        "mockery/mockery": "^1.6",
+        "nunomaduro/collision": "^8.0",
+        "phpstan/phpstan": "^1.10",
+        "laravel/pint": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "JTD\\CMSBlogSystem\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JTD\\CMSBlogSystem\\Tests\\": "tests/",
+            "JTD\\CMSBlogSystem\\Database\\Factories\\": "database/factories/",
+            "JTD\\CMSBlogSystem\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "JTD\\CMSBlogSystem\\CMSBlogSystemServiceProvider"
+            ],
+            "aliases": {
+                "CMSBlogSystem": "JTD\\CMSBlogSystem\\Support\\CMSBlogSystem"
+            }
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
+        "analyse": "vendor/bin/phpstan analyse",
+        "format": "vendor/bin/pint",
+        "format-test": "vendor/bin/pint --test"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
