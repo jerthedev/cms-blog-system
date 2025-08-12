@@ -1,5 +1,6 @@
 {
     "name": "jerthedev/cms-blog-system",
+    "version": "1.0.1",
     "description": "A comprehensive Laravel CMS and Blog system package with AdminPanel integration",
     "type": "library",
     "license": "MIT",

@@ -179,6 +179,9 @@ class BlogPost extends Model implements HasMedia
             'status' => 'published',
             'published_at' => now(),
         ]);
+
+        // Fire the published event
+        event(new \JTD\CMSBlogSystem\Events\PostPublished($this, now(), auth()->user()));
     }
 
     /**
@@ -190,6 +193,9 @@ class BlogPost extends Model implements HasMedia
             'status' => 'scheduled',
             'published_at' => $publishDate,
         ]);
+
+        // Fire the scheduled event
+        event(new \JTD\CMSBlogSystem\Events\PostScheduled($this, $publishDate, auth()->user()));
     }
 
     /**
@@ -594,5 +600,65 @@ class BlogPost extends Model implements HasMedia
             ->width(1200)
             ->height(800)
             ->nonQueued();
+    }
+
+    // ========================================
+    // Publishing Workflow Methods
+    // ========================================
+
+    /**
+     * Unpublish the post (revert to draft).
+     */
+    public function unpublish(): bool
+    {
+        return app(\JTD\CMSBlogSystem\Services\PublishingWorkflowService::class)
+            ->unpublish($this);
+    }
+
+    /**
+     * Save the post as a draft.
+     */
+    public function saveDraft(): bool
+    {
+        return app(\JTD\CMSBlogSystem\Services\PublishingWorkflowService::class)
+            ->saveDraft($this);
+    }
+
+    /**
+     * Get the publishing history for this post.
+     */
+    public function getPublishingHistory(): array
+    {
+        return app(\JTD\CMSBlogSystem\Services\PublishingWorkflowService::class)
+            ->getPublishingHistory($this);
+    }
+
+    /**
+     * Get activities for this post.
+     */
+    public function activities(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\JTD\CMSBlogSystem\Models\BlogPostActivity::class);
+    }
+
+    /**
+     * Check if the post can be published.
+     */
+    public function canBePublished(): bool
+    {
+        return ! empty($this->title) &&
+               ! empty($this->content) &&
+               ! empty($this->slug) &&
+               in_array($this->status, ['draft', 'scheduled']);
+    }
+
+    /**
+     * Check if the post is ready for scheduled publishing.
+     */
+    public function isReadyForScheduledPublishing(): bool
+    {
+        return $this->status === 'scheduled' &&
+               $this->published_at &&
+               $this->published_at->isPast();
     }
 }

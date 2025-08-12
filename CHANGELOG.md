@@ -7,6 +7,120 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1] - 2025-08-12
+
+### Added
+
+#### Blog Publishing Workflow System
+- **PublishingWorkflowService** - Comprehensive service for all publishing operations:
+  - Draft management with validation and saving
+  - Immediate publishing with pre-publish validation
+  - Scheduled publishing with queue-based automation
+  - Bulk operations for publishing/scheduling multiple posts
+  - Status management (publish, unpublish, reschedule)
+  - Publishing history and audit trail access
+- **PublishScheduledPost Job** - Queue job for automatic scheduled publishing:
+  - Reliable queue-based processing with retry logic
+  - Validation before publishing scheduled posts
+  - Error handling and failure notifications
+  - Activity logging for automated actions
+- **Publishing Events System**:
+  - `PostPublished` event fired when posts are published
+  - `PostScheduled` event fired when posts are scheduled
+  - `PostUnpublished` event fired when posts are unpublished
+  - `SendPostPublishedNotification` listener for automated notifications
+- **Draft Preview System** - Secure preview functionality:
+  - Token-based preview URLs with SHA256 security
+  - Configurable token expiration and revocation
+  - Preview access logging and analytics
+  - Framework-specific preview templates
+  - Shareable preview links with custom expiration
+- **Activity Logging System**:
+  - `BlogPostActivity` model for complete audit trail
+  - User attribution and IP address tracking
+  - Publishing history and change tracking
+  - Activity-based analytics and reporting
+- **Publishing Notifications**:
+  - Email notifications for published posts
+  - Database notifications for admin users
+  - Configurable notification settings
+  - Event-driven notification system
+
+#### Framework-Specific Template Architecture
+- **Clean Template Separation**:
+  - Bootstrap templates in `resources/views/bootstrap/`
+  - Tailwind templates in `resources/views/tailwind/`
+  - No conditional logic cluttering view files
+- **Smart Publishing System**:
+  - Framework-specific publishing tags
+  - Auto-detect framework publishing
+  - Direct publishing to standard Laravel paths
+  - Clean published structure without framework folders
+- **Enhanced Layout Templates**:
+  - Framework-optimized single, two, and three-column layouts
+  - Responsive design with mobile-first approach
+  - Accessibility compliance with semantic HTML and ARIA
+  - Widget system for sidebar content management
+
+#### Preview Interface
+- **Bootstrap Preview Template** - Professional preview interface with:
+  - Draft/scheduled status indicators
+  - Publishing action buttons (publish, schedule, reschedule)
+  - Post metadata display and formatting
+  - Responsive design and accessibility features
+- **Tailwind Preview Template** - Modern utility-first design with:
+  - Clean gradient banners and modern styling
+  - Interactive publishing controls
+  - Optimized mobile experience
+  - Professional typography and spacing
+
+#### Enhanced BlogPost Model
+- **Publishing Workflow Methods**:
+  - `publish()` method with event firing
+  - `schedule()` method with queue job dispatch
+  - `unpublish()` method for reverting to draft
+  - `saveDraft()` method for draft management
+  - `getPublishingHistory()` for audit trail access
+- **Status Check Methods**:
+  - `canBePublished()` validation method
+  - `isReadyForScheduledPublishing()` check
+  - Enhanced scope methods for filtering posts
+- **Activity Relationship**:
+  - `activities()` relationship for audit trail
+  - Integration with activity logging system
+
+### Changed
+
+#### Template Architecture Refactoring
+- **Service Provider Updates**:
+  - Framework-specific view loading and registration
+  - Multiple publishing tags for different frameworks
+  - Enhanced view resolution logic
+  - Event listener registration for publishing workflow
+- **Install Command Enhancement**:
+  - Framework selection during installation
+  - Intelligent template publishing based on framework choice
+  - Configuration updates for selected framework
+- **View Resolution Logic**:
+  - Smart detection of published vs package views
+  - Automatic preference for published templates
+  - Fallback to package views when needed
+
+### Fixed
+
+#### Template System Issues
+- **Blade Syntax Errors** - Resolved nested `@yield` statements that caused compilation errors
+- **View Publishing** - Fixed publishing to standard Laravel paths without framework subdirectories
+- **Template Optimization** - Improved responsive design and accessibility compliance
+
+### Security
+
+#### Preview System Security
+- **Token-Based Security** - SHA256-based preview tokens with configurable expiration
+- **Access Control** - Secure preview URLs that prevent unauthorized access
+- **Activity Logging** - Complete audit trail of preview access and publishing activities
+- **Validation** - Pre-publish validation to prevent invalid content publication
+
 ## [1.0.0] - 2025-08-11
 
 ### Added

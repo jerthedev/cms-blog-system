@@ -22,8 +22,8 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'blog:install 
-                            {--framework=bootstrap : Choose CSS framework (bootstrap|tailwind)}
+    protected $signature = 'blog:install
+                            {--framework= : Choose CSS framework (bootstrap|tailwind)}
                             {--force : Force overwrite existing files}';
 
     /**
@@ -51,6 +51,9 @@ class InstallCommand extends Command
 
         // Set framework choice
         $this->setFramework();
+
+        // Register with AdminPanel if available
+        $this->registerWithAdminPanel();
 
         $this->info('✅ CMS Blog System installed successfully!');
         $this->newLine();
@@ -85,7 +88,20 @@ class InstallCommand extends Command
     {
         $this->info('Publishing views and assets...');
 
-        $params = ['--tag' => 'cms-blog-system-views'];
+        // Get framework choice (will be set later in setFramework method)
+        $framework = $this->option('framework');
+
+        // If framework is specified, use framework-specific publishing
+        if ($framework && in_array($framework, ['bootstrap', 'tailwind'])) {
+            $viewTag = "cms-blog-system-views-{$framework}";
+            $this->info("Publishing {$framework} templates...");
+        } else {
+            // Use auto-detect publishing (will use config)
+            $viewTag = 'cms-blog-system-views';
+            $this->info('Publishing templates (auto-detect framework)...');
+        }
+
+        $params = ['--tag' => $viewTag];
         if ($this->option('force')) {
             $params['--force'] = true;
         }
@@ -124,7 +140,8 @@ class InstallCommand extends Command
     {
         $framework = $this->option('framework');
 
-        if (! in_array($framework, ['bootstrap', 'tailwind'])) {
+        // If no framework specified or invalid framework, prompt user
+        if (empty($framework) || ! in_array($framework, ['bootstrap', 'tailwind'])) {
             $framework = $this->choice(
                 'Which CSS framework would you like to use?',
                 ['bootstrap', 'tailwind'],
@@ -144,6 +161,19 @@ class InstallCommand extends Command
             file_put_contents($configPath, $config);
 
             $this->info("✅ Framework set to: {$framework}");
+        }
+    }
+
+    /**
+     * Register with AdminPanel if available.
+     */
+    protected function registerWithAdminPanel(): void
+    {
+        if (class_exists(\JTD\AdminPanel\Support\AdminPanel::class)) {
+            $this->info('AdminPanel detected - Blog resources will be automatically registered');
+            $this->info('✅ AdminPanel integration enabled');
+        } else {
+            $this->warn('AdminPanel not detected - Install jerthedev/admin-panel for admin interface');
         }
     }
 }
